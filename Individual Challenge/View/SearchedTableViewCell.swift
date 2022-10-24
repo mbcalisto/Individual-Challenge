@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class SearchedTableViewCell: UITableViewCell {
     
     static let cellId = "TableViewCell"
     
@@ -18,15 +18,9 @@ class TableViewCell: UITableViewCell {
     private let nameLabel: UILabel = {
         let name = UILabel()
         name.translatesAutoresizingMaskIntoConstraints = false
-        name.text = "Padrao"
+        name.text = ""
         name.numberOfLines = 0
         return name
-    }()
-    private let languageLabel: UILabel = {
-        let language = UILabel()
-        language.translatesAutoresizingMaskIntoConstraints = false
-        language.text = ""
-        return language
     }()
     
     
@@ -34,7 +28,6 @@ class TableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(square)
         contentView.addSubview(nameLabel)
-        contentView.addSubview(languageLabel)
         cellStyle()
     }
     
@@ -42,31 +35,27 @@ class TableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(nameLabel: String, languageLabel: String){
-        self.nameLabel.text = nameLabel
-        self.languageLabel.text = languageLabel
-    }
     func configureSearched(nameLabel: String){
         self.nameLabel.text = nameLabel
     }
     
 }
 
-extension TableViewCell {
+extension SearchedTableViewCell {
     func cellStyle() {
-        
-        square.backgroundColor = .systemFill
         square.translatesAutoresizingMaskIntoConstraints = false
+        square.backgroundColor = .systemFill
         square.layer.cornerRadius = 8
         square.layer.masksToBounds = true
-
-        underlineView.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
-        underlineView.backgroundColor = .systemBlue
-        contentView.addSubview(underlineView)
         
+        nameLabel.font = UIFont.preferredFont(forTextStyle: .title1)
+        nameLabel.textAlignment = .center
         
         NSLayoutConstraint.activate([
+            
+            square.heightAnchor.constraint(
+                greaterThanOrEqualToConstant: 100
+            ),
             square.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor, constant: 5
             ),
@@ -84,42 +73,13 @@ extension TableViewCell {
             square.heightAnchor.constraint(
                 greaterThanOrEqualToConstant: 100
             ),
-
-            nameLabel.topAnchor.constraint(
-                equalTo: square.topAnchor,
-                constant: 10
-            ),
+            nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             nameLabel.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor,
                 constant: 20
             ),
             nameLabel.trailingAnchor.constraint(
                 lessThanOrEqualTo: contentView.trailingAnchor
-            ),
-
-            languageLabel.trailingAnchor.constraint(
-                equalTo: square.trailingAnchor,
-                constant: -20
-            ),
-            languageLabel.bottomAnchor.constraint(
-                equalTo: square.bottomAnchor,
-                constant: -20
-            ),
-            
-            underlineView.topAnchor.constraint(
-                equalToSystemSpacingBelow: nameLabel.bottomAnchor,
-                multiplier: 1
-            ),
-            underlineView.leadingAnchor.constraint(
-                equalToSystemSpacingAfter: leadingAnchor,
-                multiplier: 2
-            ),
-            underlineView.widthAnchor.constraint(
-                equalTo: nameLabel.widthAnchor,
-                constant: 15
-            ),
-            underlineView.heightAnchor.constraint(
-                equalToConstant: 4
             )
         ])
     }

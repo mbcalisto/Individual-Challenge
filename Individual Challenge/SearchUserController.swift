@@ -12,16 +12,22 @@ class SearchUserController: UIViewController {
     let insertUser = UITextField()
     let searchButton = UIButton()
     let errorMessageLabel = UILabel()
+    let imageView = UIImageView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         style()
         layout()
+        
     }
 }
 
 extension SearchUserController  {
     func style() {
+        self.navigationController?.navigationBar.tintColor = .systemBlue
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.2.gobackward"), style: .plain, target: self, action: #selector(SearchedUsers))
+        
         insertUser.translatesAutoresizingMaskIntoConstraints = false
         insertUser.placeholder = "Username"
         insertUser.textAlignment = .center
@@ -43,16 +49,26 @@ extension SearchUserController  {
         errorMessageLabel.numberOfLines = 0
         errorMessageLabel.text = "The username cannot be blank."
         errorMessageLabel.isHidden = true
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "git-removed")
+        
     }
     
     func layout() {
+        
         stackView.addArrangedSubview(insertUser)
         stackView.addArrangedSubview(searchButton)
+        view.addSubview(imageView)
         view.addSubview(stackView)
         view.addSubview(errorMessageLabel)
-        
         NSLayoutConstraint.activate([
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150),
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        ])
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 50),
             stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 10),
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 10),
         ])
@@ -68,30 +84,48 @@ extension SearchUserController  {
         ])
         
     }
+    @objc func SearchedUsers(){
+        let rootVC = SearchedUsersController()
+        self.navigationController?.pushViewController(rootVC, animated: true)
+      }
     
     @objc func searchFunc() {
+        
+        
         if insertUser.text == "" {
+            errorMessageLabel.text = "The username cannot be blank."
             errorMessageLabel.isHidden = false
-           
+            
         }else{
             Task{
                 let rootVC = UserRepositoryController()
-                
-                API.searchUser(username: "\(insertUser.text!)") {
-                    (repos) in
-                    rootVC.repos = repos
-                                    }
-                errorMessageLabel.isHidden = true
-            
-                navigationController?.pushViewController(rootVC, animated: true)
+                API.searchUser(username: "\(insertUser.text!)") { (repos) in
+                    if let repos {
+                        rootVC.repos = repos
+                        
+                        DispatchQueue.main.async {
+                            
+                            
+                            CoreDataManager.shared.createName(name: "\(self.insertUser.text!)")
+
+                            
+                            self.errorMessageLabel.isHidden = true
+                            self.navigationController?.pushViewController(rootVC, animated: true)
+                           
+                            
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.errorMessageLabel.text = "User not found."
+                            self.errorMessageLabel.isHidden = false
+                            
+                        }
+                    }
+                    
+                }
             }
         }
     }
 }
 
-/*
- 1. Pegar dados da search e fazer uma request pra API.
- 2. Depois de ter o model vindo da API, fazer requisicao pra proxima controller, mandando esse model no init dela. (injecao de dependencia) nome bonito pra UserRepositoryController(repos: repos)
- 3. Na UserRepositoryController, configurar delegate e dataSource pra usar o array repos :)
- 4. *MAGIC*
- */
+
