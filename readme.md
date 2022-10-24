@@ -1,4 +1,4 @@
 # Individual-Challenge
 Individual Challenge App!
 
-Pesquisador de Repositorios do GIT.
+Pesquisador de repositorios de usuarios do GIT.
