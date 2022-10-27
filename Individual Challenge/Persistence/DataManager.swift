@@ -51,15 +51,6 @@ struct CoreDataManager {
 
         return nil
     }
-    
-    func pritAll() {
-        let users = fetchNames()
-        if !users.isEmpty {
-            for user in users {
-                print(user.name)
-            }
-        }
-    }
 
     func fetchNames() -> [SearchedUser] {
         let context = persistentContainer.viewContext

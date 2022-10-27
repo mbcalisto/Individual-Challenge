@@ -12,7 +12,7 @@ class SearchedUsersController: UIViewController {
     var repos: [User] = [] {
         didSet {
             DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                self.tableView.reloadData()
             }
         }
     }
@@ -47,7 +47,7 @@ extension SearchedUsersController  {
     }
     
     func layout() {
-       
+        
     }
 }
 
@@ -61,13 +61,9 @@ extension SearchedUsersController: UITableViewDelegate, UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchedTableViewCell.cellId, for: indexPath) as? SearchedTableViewCell else { return UITableViewCell()}
         
-        
-        
         cell.configureSearched(nameLabel: currentCellModel.name!.uppercased())
         cell.tintColor = .black
         
         return cell
     }
-    
-    
 }

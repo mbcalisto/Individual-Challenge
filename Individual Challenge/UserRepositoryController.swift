@@ -6,8 +6,6 @@ protocol UserRepositoryDelegate: AnyObject {
 }
 
 class UserRepositoryController: UIViewController {
-   
-
     private let tableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -17,7 +15,7 @@ class UserRepositoryController: UIViewController {
     var repos: [User] = [] {
         didSet {
             DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                self.tableView.reloadData()
                 
             }
         }

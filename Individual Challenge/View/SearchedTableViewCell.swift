@@ -8,13 +8,9 @@
 import UIKit
 
 class SearchedTableViewCell: UITableViewCell {
-    
     static let cellId = "TableViewCell"
-    
-    
     let square = UIView()
     let underlineView = UIView()
-    
     private let nameLabel: UILabel = {
         let name = UILabel()
         name.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +18,6 @@ class SearchedTableViewCell: UITableViewCell {
         name.numberOfLines = 0
         return name
     }()
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -47,10 +42,8 @@ extension SearchedTableViewCell {
         square.backgroundColor = .systemFill
         square.layer.cornerRadius = 8
         square.layer.masksToBounds = true
-        
         nameLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         nameLabel.textAlignment = .center
-        
         NSLayoutConstraint.activate([
             
             square.heightAnchor.constraint(

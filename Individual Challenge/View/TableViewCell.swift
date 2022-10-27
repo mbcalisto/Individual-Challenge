@@ -8,10 +8,7 @@
 import UIKit
 
 class TableViewCell: UITableViewCell {
-    
     static let cellId = "TableViewCell"
-    
-    
     let square = UIView()
     let underlineView = UIView()
     
@@ -29,7 +26,6 @@ class TableViewCell: UITableViewCell {
         return language
     }()
     
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(square)
@@ -46,6 +42,7 @@ class TableViewCell: UITableViewCell {
         self.nameLabel.text = nameLabel
         self.languageLabel.text = languageLabel
     }
+    
     func configureSearched(nameLabel: String){
         self.nameLabel.text = nameLabel
     }
@@ -54,18 +51,14 @@ class TableViewCell: UITableViewCell {
 
 extension TableViewCell {
     func cellStyle() {
-        
         square.backgroundColor = .systemFill
         square.translatesAutoresizingMaskIntoConstraints = false
         square.layer.cornerRadius = 8
         square.layer.masksToBounds = true
-
         underlineView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         underlineView.backgroundColor = .systemBlue
         contentView.addSubview(underlineView)
-        
-        
         NSLayoutConstraint.activate([
             square.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor, constant: 5
@@ -84,7 +77,7 @@ extension TableViewCell {
             square.heightAnchor.constraint(
                 greaterThanOrEqualToConstant: 100
             ),
-
+            
             nameLabel.topAnchor.constraint(
                 equalTo: square.topAnchor,
                 constant: 10
@@ -96,7 +89,7 @@ extension TableViewCell {
             nameLabel.trailingAnchor.constraint(
                 lessThanOrEqualTo: contentView.trailingAnchor
             ),
-
+            
             languageLabel.trailingAnchor.constraint(
                 equalTo: square.trailingAnchor,
                 constant: -20
@@ -123,5 +116,4 @@ extension TableViewCell {
             )
         ])
     }
-    
 }
